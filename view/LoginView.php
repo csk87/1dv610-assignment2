@@ -21,9 +21,11 @@ class LoginView {
 	 */
 	public function response() {
 		
+		$message = '';
+			
 		//stops response from printing error on GET (pageload).  
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
-			return $this->generateLoginFormHTML('');
+			return $this->generateLoginFormHTML($message);
 		}
 
 		if (empty($_POST[self::$name])) {
