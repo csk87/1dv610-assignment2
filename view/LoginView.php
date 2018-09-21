@@ -1,4 +1,5 @@
 <?php
+namespace view;
 
 class LoginView {
 	private static $login = 'LoginView::Login';
@@ -10,7 +11,6 @@ class LoginView {
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
 
-
 	/**
 	 * Create HTTP response
 	 *
@@ -18,46 +18,20 @@ class LoginView {
 	 *
 	 * @return  void BUT writes to standard output and cookies!
 	 */
-	public function response() {
-		
+	public function response($loggedIn) {
+	
 		$message = '';
 		$username = '';
 
-		//stops response from printing error on GET (pageload).  
 		if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
 			return $this->generateLoginFormHTML($message, $username);
 		}
-
-	
-		if (empty($_POST[self::$name]) && empty($_POST[self::$password])) {
-
-			$message = 'Username is missing';	
-	
-		} else if (empty($_POST[self::$password])){
-
-			$username = $_POST[self::$name];
-			$message = 'Password is missing';	
-
-		} else if (empty($_POST[self::$name])){
-
-			$message = 'Username is missing';	
-
-		} else if ($_POST[self::$name] == 'Admin' && $_POST[self::$password] !== 'Password'){
-
-			$username = $_POST[self::$name];
-			$message = 'Wrong name or password';
-
-		} else if ($_POST[self::$password] == 'Password' && $_POST[self::$name] !== 'Admin'){
-			
-			$username = $_POST[self::$name];
-			$message = 'Wrong name or password';
-
-		} else {
-			$message = '';
-		}
-	
+		
+		if(!$loggedIn){
 		$response = $this->generateLoginFormHTML($message, $username);
-		//$response .= $this->generateLogoutButtonHTML($message);
+		} else {
+		$response = $this->generateLogoutButtonHTML($message);
+		}
 		return $response;
 
 	}
@@ -107,5 +81,12 @@ class LoginView {
 	private function getRequestUserName() {
 		//RETURN REQUEST VARIABLE: USERNAME
 	}
-	
+
+	public function checkUserAuthentication(){
+		if($_POST[self::$name] == 'Admin'){
+			return true;
+		} else {
+		return false;
+		}
+	}
 }

@@ -1,5 +1,5 @@
 <?php
-
+namespace view;
 
 class LayoutView {
   
@@ -15,11 +15,11 @@ class LayoutView {
           ' . $this->renderIsLoggedIn($isLoggedIn) . '
           
           <div class="container">
-              ' . $v->response() . '
+              ' . $v->response($isLoggedIn) . '
               
               ' . $dtv->show() . '
           </div>
-         </body>
+        </body>
       </html>
     ';
   }
