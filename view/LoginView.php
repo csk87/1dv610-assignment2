@@ -10,7 +10,7 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
-
+	private $message = ''; 
 	/**
 	 * Create HTTP response
 	 *
@@ -18,20 +18,15 @@ class LoginView {
 	 *
 	 * @return  void BUT writes to standard output and cookies!
 	 */
-	public function response($loggedIn) {
-	
-		$message = '';
+	public function response($message) {
+		
+
 		$username = '';
 
-		if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
-			return $this->generateLoginFormHTML($message, $username);
-		}
-		
-		if(!$loggedIn){
 		$response = $this->generateLoginFormHTML($message, $username);
-		} else {
-		$response = $this->generateLogoutButtonHTML($message);
-		}
+		
+		//$response = $this->generateLogoutButtonHTML($this->message);
+	
 		return $response;
 
 	}
@@ -82,11 +77,18 @@ class LoginView {
 		//RETURN REQUEST VARIABLE: USERNAME
 	}
 
-	public function checkUserAuthentication(){
-		if($_POST[self::$name] == 'Admin'){
-			return true;
-		} else {
-		return false;
-		}
+	public function getUsernameInput(){
+		if(isset($_POST[self::$name]))
+			return $_POST[self::$name];
 	}
+
+	public function getPasswordInput(){
+		if(isset($_POST[self::$password]))
+			return $_POST[self::$password];
+	}
+
+	public function tryToLogin(){
+		return isset($_POST[self::$login]);
+	}
+
 }
