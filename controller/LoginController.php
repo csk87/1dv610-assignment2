@@ -24,18 +24,17 @@ class LoginController{
 
   public function response(){
     
-    
-   
     if($this->loginView->tryToLogin()){
       if($this->loginView->getUsernameInput() == ''){
         $this->message = 'Username is missing';
       } else if($this->loginView->getPasswordInput() == ''){
         $this->message = 'Password is missing';
-      } else if($this->userModel->getUsername() !== $this->loginView->getUsernameInput() && $this->userModel->getPassword() !==  $this->loginView->getPasswordInput()){
+      } else if($this->loginView->getUsernameInput() !== $this->userModel->getUsername() || $this->loginView->getPasswordInput() !== $this->userModel->getPassword()){
         $this->message = 'Wrong name or password';
       }
       else {
-        $this->message = 'Welcome!';
+        $this->message = 'Welcome';
+        $this->isLoggedIn = true;
       }
     }
     $this->layoutView->render($this->isLoggedIn, $this->message, $this->loginView, $this->dateTimeView); 
