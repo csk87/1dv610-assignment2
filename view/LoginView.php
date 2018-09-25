@@ -10,6 +10,7 @@ class LoginView {
 	private static $cookiePassword = 'LoginView::CookiePassword';
 	private static $keep = 'LoginView::KeepMeLoggedIn';
 	private static $messageId = 'LoginView::Message';
+	private static $sessionName = 'LoginView::SessionName';
 	//private $message = ''; 
 
 	/**
@@ -89,6 +90,34 @@ class LoginView {
 
 	public function tryToLogin(){
 		return isset($_POST[self::$login]);
+	}
+
+
+	/* SESSIONS */
+	public function getSessionName(){
+		if(isset($_SESSION[self::$sessionName])){
+			return $_SESSION[self::$sessionName];
+		} 
+	}
+
+	public function setSessionName() {
+		$_SESSION[self::$sessionName] = $this->getUsernameInput();
+	}
+
+	public function sessionExist(){
+		if(isset($_SESSION[self::$sessionName])){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function tryToLogout(){
+		return isset($_POST[self::$logout]);
+	}
+
+	public function removeCurrentSession(){
+		unset($_SESSION[self::$sessionName]);
 	}
 
 }
