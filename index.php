@@ -1,10 +1,11 @@
 <?php
 
 session_start();
+
 //INCLUDE THE FILES NEEDED...
 require_once('view/LoginView.php');
-require_once('view/DateTimeView.php');
 require_once('view/LayoutView.php');
+require_once('view/RegisterView.php');
 require_once('model/User.php');
 require_once('controller/LoginController.php');
 
@@ -17,8 +18,9 @@ ini_set('display_errors', 'On');
 $layoutView = new \view\LayoutView();
 $loginView = new \view\LoginView();
 $dateTimeView = new \view\DateTimeView();
+$registerView = new \view\RegisterView();
 
-$loginController = new \controller\LoginController($layoutView, $loginView, $dateTimeView); 
+$loginController = new \controller\LoginController($layoutView, $loginView, $dateTimeView, $registerView); 
 $loginController->response(); 
 
 /*

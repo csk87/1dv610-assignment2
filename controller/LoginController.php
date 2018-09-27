@@ -13,13 +13,21 @@ class LoginController{
   private $isLoggedIn = false;
   private $message = '';
   
-  public function __construct(\view\LayoutView $layoutView, \view\LoginView $loginView, \view\DateTimeView $dateTimeView) {
+  public function __construct(\view\LayoutView $layoutView, \view\LoginView $loginView, \view\DateTimeView $dateTimeView, \view\RegisterView $registerView) {
     $this->layoutView = $layoutView;
     $this->loginView = $loginView;
     $this->dateTimeView = $dateTimeView;
+    $this->registerView = $registerView;
   }
 
   public function response(){
+
+    if($this->loginView->getRegister()){
+      $this->layoutView->render($this->isLoggedIn, $this->message, $this->registerView->renderHTML(), $this->dateTimeView); 
+      return;
+      
+    }
+
 
     if($this->loginView->sessionExist()){ // om det finns session
 
@@ -49,7 +57,7 @@ class LoginController{
       } 
     } 
   
-    $this->layoutView->render($this->isLoggedIn, $this->message, $this->loginView, $this->dateTimeView);  //vyn
+    $this->layoutView->render($this->isLoggedIn, $this->message, $this->loginView->response($this->isLoggedIn, $this->message), $this->dateTimeView);  //vyn
   }
 
 

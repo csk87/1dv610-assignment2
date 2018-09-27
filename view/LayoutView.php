@@ -1,9 +1,10 @@
 <?php
 namespace view;
+require_once('view/DateTimeView.php');
 
 class LayoutView {
-  
-  public function render($isLoggedIn, $message, LoginView $v, DateTimeView $dtv) {
+
+  public function render($isLoggedIn, $message, $htmlView, DateTimeView $dtv) {
     //session_start();
     echo ' <!DOCTYPE html>
       <html>
@@ -17,7 +18,7 @@ class LayoutView {
           
           <div class="container">
         
-              ' . $v->response($isLoggedIn, $message) . '
+              ' . $htmlView . '
               
               ' . $dtv->show() . '
           </div>
@@ -32,9 +33,18 @@ class LayoutView {
     }
     else {
       return '
-      <a href="?register">Register a new user</a>
+      '. $this->setNavigation() . '
       <h2>Not logged in</h2>
       ';
     }
   }
+
+  private function setNavigation(){
+    if(isset($_GET['register'])){
+      return  '<a href="?">Back to login</a>';
+    } else {
+     return '<a href="?register">Register a new user</a>';
+    }
+  }
+
 }

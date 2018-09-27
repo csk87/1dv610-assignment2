@@ -78,6 +78,13 @@ class LoginView {
 		//RETURN REQUEST VARIABLE: USERNAME
 	}
 
+
+	public function getRegister(){
+		if(isset($_GET["register"])){
+			return true;
+		}
+	}
+
 	public function getUsernameInput(){
 		if(isset($_POST[self::$name])){
 			return $_POST[self::$name];
