@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 //INCLUDE THE FILES NEEDED...
 require_once('view/LoginView.php');
@@ -11,13 +12,13 @@ require_once('controller/LoginController.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
-$user = new \model\User('Admin', 'Password');
+//$user = new \model\User('Admin', 'Password');
 
 $layoutView = new \view\LayoutView();
 $loginView = new \view\LoginView();
 $dateTimeView = new \view\DateTimeView();
 
-$loginController = new \controller\LoginController($layoutView, $loginView, $dateTimeView, $user); 
+$loginController = new \controller\LoginController($layoutView, $loginView, $dateTimeView); 
 $loginController->response(); 
 
 /*

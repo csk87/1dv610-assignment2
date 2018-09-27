@@ -79,13 +79,19 @@ class LoginView {
 	}
 
 	public function getUsernameInput(){
-		if(isset($_POST[self::$name]))
+		if(isset($_POST[self::$name])){
 			return $_POST[self::$name];
+		} else {
+			return '';
+		}	
 	}
 
 	public function getPasswordInput(){
-		if(isset($_POST[self::$password]))
+		if(isset($_POST[self::$password])){
 			return $_POST[self::$password];
+		} else { 
+			return '';
+		}
 	}
 
 	public function tryToLogin(){
@@ -100,8 +106,8 @@ class LoginView {
 		} 
 	}
 
-	public function setSessionName() {
-		$_SESSION[self::$sessionName] = $this->getUsernameInput();
+	public function setSessionName($userName) {
+		$_SESSION[self::$sessionName] = $userName;
 	}
 
 	public function sessionExist(){
@@ -112,12 +118,61 @@ class LoginView {
 		}
 	}
 
-	public function tryToLogout(){
-		return isset($_POST[self::$logout]);
-	}
 
 	public function removeCurrentSession(){
 		unset($_SESSION[self::$sessionName]);
 	}
+
+
+	public function tryToLogout(){
+		return isset($_POST[self::$logout]);
+	}
+
+	public function keepLoggedIn(){
+
+		if(isset($_POST[self::$keep])){
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	/* COOKIES */
+
+	public function getCookieName() {
+		if(isset($_COOKIE[self::$cookieName])){
+			return $_COOKIE[self::$cookieName];
+		}
+	}
+
+	public function getCookiePassword() {
+		if(isset($_COOKIE[self::$cookiePassword])){
+			return $_COOKIE[self::$cookiePassword];
+		}
+	}
+
+
+	public function setCookies($username, $password, $cookieLifeTime){
+		setcookie(self::$cookieName, $username, $cookieLifeTime);
+		setcookie(self::$cookiePassword, md5($password), $cookieLifeTime);
+	}
+
+	public function removeCurrentCookies(){
+
+		setcookie(self::$cookieName, '', time() - 3600);
+    setcookie(self::$cookiePassword, '', time() - 3600);
+		unset($_COOKIE[self::$cookieName]);
+		unset($_COOKIE[self::$cookiePassword]);
+	}
+
+	public function cookiesExist(){
+		if(isset($_COOKIE[self::$cookieName]) && isset($_COOKIE[self::$cookiePassword])){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 
 }
